@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Predictor</title>
+    <style>
+        body {
+            background-color: #1a202c;
+            color: #cbd5e0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .form-section {
+            background-color: #2d3748;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+        .form-section input, .form-section select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #4a5568;
+            border-radius: 0.25rem;
+            background-color: #4a5568;
+            color: #e2e8f0;
+            margin-bottom: 1rem;
+        }
+        .form-section input:focus, .form-section select:focus {
+            border-color: #5a67d8;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.5);
+        }
+        .form-section button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.25rem;
+            background-color: #5a67d8;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-section button:hover {
+            background-color: #434190;
+        }
+    </style>
+    <script>
+        function updateLoanGrade() {
+            const selectedGrade = document.getElementById('loan_grade_select').value;
+            const grades = ['A', 'B', 'C', 'D', 'E', 'F'];
+            grades.forEach(grade => {
+                document.getElementById('loan_grade_' + grade).value = (grade === selectedGrade) ? '1' : '0';
+            });
+        }
+
+        function updateLoanIntent() {
+            const selectedIntent = document.getElementById('loan_intent_select').value;
+            const intents = ['DEBTCONSOLIDATION', 'EDUCATION', 'HOMEIMPROVEMENT', 'MEDICAL', 'PERSONAL', 'VENTURE'];
+            intents.forEach(intent => {
+                document.getElementById('loan_intent_' + intent).value = (intent === selectedIntent) ? '1' : '0';
+            });
+        }
+
+        function updateHomeOwnership() {
+            const selectedOwnership = document.getElementById('home_ownership_select').value;
+            const ownerships = ['MORTGAGE', 'OTHER', 'OWN', 'RENT'];
+            ownerships.forEach(ownership => {
+                document.getElementById('home_ownership_' + ownership).value = (ownership === selectedOwnership) ? '1' : '0';
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>Loan Predictor</h1>
+            <p>Now, Use the Predictor!</p>
+        </div>
+        <form class="form-horizontal" action="\predict" method="post">
+            <div class="form-section">
+                <label for="customer_age">Customer Age</label>
+                <input type="text" id="customer_age" name="customer_age">
+
+                <label for="employment_duration">Employment Duration</label>
+                <input type="text" id="employment_duration" name="employment_duration">
+
+                <label for="loan_int_rate">Loan Interest Rate</label>
+                <input type="text" id="loan_int_rate" name="loan_int_rate">
+
+                <label for="term_years">Term (in years)</label>
+                <input type="text" id="term_years" name="term_years">
+
+                <label for="historical_default">Historical Default</label>
+                <input type="text" id="historical_default" name="historical_default">
+
+                <label for="cred_hist_length">Credit History Length</label>
+                <input type="text" id="cred_hist_length" name="cred_hist_length">
+
+                <label for="customer_income_log">Customer Income</label>
+                <input type="text" id="customer_income_log" name="customer_income_log">
+
+                <label for="loan_amnt_log">Loan Amount</label>
+                <input type="text" id="loan_amnt_log" name="loan_amnt_log">
+
+                <label for="home_ownership_select">Home Ownership</label>
+                <select id="home_ownership_select" name="home_ownership_select" onchange="updateHomeOwnership()">
+                    <option value="MORTGAGE">Mortgage</option>
+                    <option value="OTHER">Other</option>
+                    <option value="OWN">Own</option>
+                    <option value="RENT">Rent</option>
+                </select>
+
+                <input type="hidden" id="home_ownership_MORTGAGE" name="home_ownership_MORTGAGE" value="0">
+                <input type="hidden" id="home_ownership_OTHER" name="home_ownership_OTHER" value="0">
+                <input type="hidden" id="home_ownership_OWN" name="home_ownership_OWN" value="0">
+                <input type="hidden" id="home_ownership_RENT" name="home_ownership_RENT" value="0">
+
+                <label for="loan_intent_select">Loan Intent</label>
+                <select id="loan_intent_select" name="loan_intent_select" onchange="updateLoanIntent()">
+                    <option value="DEBTCONSOLIDATION">Debt Consolidation</option>
+                    <option value="EDUCATION">Education</option>
+                    <option value="HOMEIMPROVEMENT">Home Improvement</option>
+                    <option value="MEDICAL">Medical</option>
+                    <option value="PERSONAL">Personal</option>
+                    <option value="VENTURE">Venture</option>
+                </select>
+
+                <input type="hidden" id="loan_intent_DEBTCONSOLIDATION" name="loan_intent_DEBTCONSOLIDATION" value="0">
+                <input type="hidden" id="loan_intent_EDUCATION" name="loan_intent_EDUCATION" value="0">
+                <input type="hidden" id="loan_intent_HOMEIMPROVEMENT" name="loan_intent_HOMEIMPROVEMENT" value="0">
+                <input type="hidden" id="loan_intent_MEDICAL" name="loan_intent_MEDICAL" value="0">
+                <input type="hidden" id="loan_intent_PERSONAL" name="loan_intent_PERSONAL" value="0">
+                <input type="hidden" id="loan_intent_VENTURE" name="loan_intent_VENTURE" value="0">
+
+                <label for="loan_grade_select">Loan Grade</label>
+                <select id="loan_grade_select" name="loan_grade_select" onchange="updateLoanGrade()">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                </select>
+
+                <input type="hidden" id="loan_grade_A" name="loan_grade_A" value="0">
+                <input type="hidden" id="loan_grade_B" name="loan_grade_B" value="0">
+                <input type="hidden" id="loan_grade_C" name="loan_grade_C" value="0">
+                <input type="hidden" id="loan_grade_D" name="loan_grade_D" value="0">
+                <input type="hidden" id="loan_grade_E" name="loan_grade_E" value="0">
+                <input type="hidden" id="loan_grade_F" name="loan_grade_F" value="0">
+
+                <button type="submit">Predict</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

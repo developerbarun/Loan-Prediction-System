@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-md-center mb-4">
+        <h3 class="text-primary">Prediction is {{ prediction }}</h3>
+    </div>
+
+    <div class="row justify-content-md-center">
+        <div class="prediction-box">
+            {% if prediction == 0 %}
+                <h1 class="text-danger">No , sorry we cannot grant you the loan</h1>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center">
+        <div class="prediction-box">
+            {% if prediction == 1 %}
+                <h1 class="text-success">Yes, the loan can be granted to this person</h1>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    body {
+        background-color: #1a202c;
+        color: #cbd5e0;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .row {
+        margin-bottom: 1rem;
+    }
+    .prediction-box {
+        text-align: center;
+        padding: 1.5rem;
+        background-color: #2d3748;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .text-primary {
+        color: #5a67d8 !important;
+    }
+    .text-danger {
+        color: #dc3545 !important;
+    }
+    .text-success {
+        color: #28a745 !important;
+    }
+</style>
